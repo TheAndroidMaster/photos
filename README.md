@@ -1,2 +1,1 @@
-# photos
-A collection of all of the photos I take, wallpapers I create, and art that I make.
+This website is a collection of all of the photos I take, wallpapers I create, and art that I make. All images are published under the [Creative Commons Attribution Share Alike 4.0](https://choosealicense.com/licenses/cc-by-sa-4.0/) license. In other words, they can be used for (mostly) whatever you want, provided you give me credit and don't try to claim ownership of them.
