@@ -56,10 +56,24 @@
 		<h1>Photos</h1>
 		<p>A collection of photography by <a href="/">James Fenn</a></p>
 	</header>
+	<main id="main">
+	</main>
 	<script type="text/javascript" src="js/things.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
 	<script>
+		var mainElement = document.getElementById("main");
+	
 		Pics.init(function() {
-			console.log("done");		
+			var html = "";
+			for (var i = 0; i < Pics.collections.length; i++) {
+				html += "<div class=\"collection\"><h1>" + Pics.collections[i].name + "</h1><div class=\"hpics\">";
+				for (var i2 = 0; i2 < Pics.collections[i].pics.length && i2 < 5; i2++) {
+					html += "<img src=\"" + Pics.collections[i].pics[i2].url + "\">";
+				}
+				html += "</div></div>";
+			}
+
+			ElementUtils.append(mainElement, html);
 		});
 	</script>
 </body>
