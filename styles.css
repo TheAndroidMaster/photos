@@ -1,0 +1,18 @@
+header {
+	border-bottom: 2px solid #000000;
+	display: inline-block;
+	margin-left: 2.5em;
+	margin-right: 2em;
+	padding-left: 0.5em;
+	padding-right: 3em;
+	padding-top: 4em;
+	padding-bottom: 1em;
+}
+
+header > h1, header > p {
+	margin: 0;
+}
+
+p {
+	color: rgba(0, 0, 0, 0.7);
+}
