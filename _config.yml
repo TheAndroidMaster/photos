@@ -8,7 +8,6 @@ collections:
         output: false
     albums:
         output: true
-        permalink: /:year-:month-:day-:title/
 
 exclude:
   - Gemfile
@@ -16,3 +15,6 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+include:
+  - .scripts

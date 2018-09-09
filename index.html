@@ -1,82 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: default
+---
 
-<head>
-	<meta charset="utf-8">
-	<meta name="description" content="Pictures taken by James Fenn.">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Photos" />
-	<title>Photos</title>
-	<meta name="theme-color" content="#BDBDBD">
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="manifest" href="manifest.json">
-	<meta name="application-name" content="Photos">
-	<meta name="msapplication-TileColor" content="#000000">
-	<meta name="msapplication-tooltip" content="Photos">
-	<meta name="msapplication-config" content="/ieconfig.xml">
-	<link rel="shortcut icon" href="/favicon.ico">
-	<link rel="icon" sizes="16x16" href="/favicon.ico">
-	<link rel="icon" sizes="24x24" href="/images/favicon-24.ico">
-	<link rel="icon" sizes="32x32" href="/images/favicon-32.ico">
-	<link rel="icon" sizes="48x48" href="/images/favicon-48.ico">
-	<link rel="icon" sizes="64x64" href="/images/favicon-48.ico">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="Photos">
-	<link rel="apple-touch-icon-precomposed" href="/images/favicon-152.png">
-	<link href="https://fonts.googleapis.com/css?family=Karla:700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="css/styles.css" rel="stylesheet">
-	<style>
-		* {
-			font-family: 'Karla', sans-serif;
-			animation-name: fadeIn;
-			animation-duration: .3s;
-			animation-delay: .1s;
-			animation-timing-function: ease-out;
-			animation-fill-mode: forwards;
-			opacity: 0;
-		}
-		
-		@keyframes fadeIn {
-			from {opacity: 0;}
-			to {opacity: 1;}
-		}
-		
-		body {
-			padding: 0px;
-			margin: 0px;
-			background-color: #FFFFFF;
-		}
-	</style>
-</head>
-
-<body>
-	<header>
-		<h1>Photos</h1>
-		<p>A collection of photography by <a href="/">James Fenn</a></p>
-	</header>
-	<main>
-		<div id="collections"></div>
-	</main>
-	<script type="text/javascript" src="js/things.js"></script>
-	<script type="text/javascript" src="js/utils.js"></script>
-	<script>
-		var collectionsElement = document.getElementById("collections");
-	
-		Pics.init(function() {
-			var html = "";
-			for (var i = 0; i < Pics.collections.length; i++) {
-				html += "<div class=\"collection\"><h1>" + Pics.collections[i].name + "</h1>" + (Pics.collections[i].description ? "<p>" + Pics.collections[i].description + "</p>" : "") + "<div class=\"hpics\">";
-				for (var i2 = 0; i2 < Pics.collections[i].pics.length && i2 < 5; i2++) {
-					html += "<img src=\"" + Pics.collections[i].pics[i2].url + "\">";
-				}
-				html += "</div></div>";
-			}
-
-			ElementUtils.append(collectionsElement, html);
-		});
-	</script>
-</body>
-
-</html>
+<main>
+	<h1>Photos</h1>
+	<p>
+		This site is a collection of some pictures taken by <a href="/">me</a> in various places. All photography on this site is published under the
+		<a href="https://choosealicense.com/licenses/CC-BY-SA-4.0">cc-by-sa-4.0</a> license.
+	</p>
+	<div class="grid">
+		{% for album in site.albums %}
+		<a class="item box" href="{{ site.baseurl }}{{ album.url }}">
+			<span>{{ album.title }}</span>
+			{{ album.date | date: "%B %e, %Y" }}
+		</a>
+		{% endfor %}
+	</div>
+</main>
