@@ -1,0 +1,18 @@
+name: James Fenn
+description: James Fenn's photo collection.
+url: https://jfenn.me/photos
+baseurl: "/"
+
+collections:
+    images:
+        output: false
+    albums:
+        output: true
+        permalink: /:year-:month-:day-:title/
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - CNAME

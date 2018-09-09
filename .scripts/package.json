@@ -1,0 +1,11 @@
+{
+  "name": "update-photos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "update.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Fenn",
+  "license": "CC-BY-SA-4.0"
+}
