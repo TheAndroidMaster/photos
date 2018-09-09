@@ -49,9 +49,12 @@ try {
 			let image = album.images[i2];
 			images += "  - " + image.id + "\n";
 
+			let file = request('GET', image.link, {}).getBody();
+			fs.writeFileSync(path.resolve("../../images/" + image.id + ".jpg"), file);
+
 			fs.writeFileSync(path.resolve("../../_images/" + image.id + ".md"), "---\n"
 				+ "id: " + image.id + "\n"
-				+ "image: " + image.link + "\n"
+				+ "image: images/" + image.id + ".jpg\n"
 				+ (image.description ? "description: " + image.description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
 				+ "album: " + album.id + "\n"
 				+ "---\n\n");
@@ -63,7 +66,7 @@ try {
 			+ "layout: album\n"
 			+ "title: " + album.title + "\n"
 			+ (album.description ? "description: " + album.description.split(":").join("&#58;") + "\n" : "")
-			+ "id: " + album.id + "\n"
+			+ "album: " + album.id + "\n"
 			+ "link: " + album.link + "\n"
 			+ "images:\n" + images
 			+ "---\n\n");

@@ -1,7 +1,7 @@
 ---
 layout: album
 title: T520 in the countryside
-id: 3Fvqxt5
+album: 3Fvqxt5
 link: https://imgur.com/a/3Fvqxt5
 images:
   - c4IlM1h
