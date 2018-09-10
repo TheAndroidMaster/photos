@@ -11,7 +11,7 @@ title: Photos by James Fenn
 	</p>
 	<div class="grid">
 		{% for album in site.albums %}
-		{% assign id = album.ids | first %}
+		{% assign id = album.images | first %}
 		{% assign image = site.images | where: "imgur", id | first %}
 		<a class="item box image" href="{{ site.baseurl }}{{ album.id }}">
 			<div><img src="{{ image.image }}"></div>

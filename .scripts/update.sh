@@ -13,7 +13,7 @@ node update.js
 git add ../../images ../../_images ../../_albums
 git status
 read -p "[Enter] to commit & push, [Ctrl+C] to cancel."
-git commit -m "Auto-commit: updated pages"
+git commit -m "Auto-commit: updated photos"
 git push
 
 exit 0
