@@ -4,11 +4,12 @@ title: Photos by James Fenn
 ---
 
 <main>
-	<h1>Photos</h1>
+	<h1>Photography</h1>
 	<p>
 		This site is a collection of some pictures taken by <a href="/">me</a> in various places. All photography on this site is published under the
 		<a href="https://choosealicense.com/licenses/CC-BY-SA-4.0">cc-by-sa-4.0</a> license.
 	</p>
+	<p>The repository containing the images and this site's source code is located on GitHub <a href="/redirects/?t=github&d=photos">here</a>.</p>
 	<div class="grid">
 		{% for album in site.albums %}
 		{% assign id = album.images | first %}
