@@ -15,7 +15,7 @@ layout: default
 	{% for image in images %}
 	<a class="item image" href="../{{ image.image }}">
 		<div><img src="../{{ image.image }}"></div>
-		{{ image.description }}
+		<span>{{ image.description }}</span>
 	</a>
 	{% endfor %}
 </main>
