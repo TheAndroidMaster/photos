@@ -2,7 +2,7 @@
 layout: image
 title: Fall Trees
 imgur: wWM03Yr
-image: images/wWM03Yr.jpg
+image: images/wWM03Yr.jpeg
 description: More trees.
 album: 7a11ZPT
 ---
