@@ -10,7 +10,7 @@ layout: default
 	</p>
 	<div class="grid">
 		{% for album in site.albums %}
-		<a class="item box" href="{{ site.baseurl }}{{ album.url }}">
+		<a class="item box" href="{{ site.baseurl }}{{ album.id }}">
 			<span>{{ album.title }}</span>
 			{{ album.date | date: "%B %e, %Y" }}
 		</a>
