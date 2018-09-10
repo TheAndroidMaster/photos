@@ -3,9 +3,14 @@ layout: default
 ---
 
 <main>
-	<span class="item image">
-		<div style="max-height: initial;"><img src="../{{ page.image }}"></div>
-	</span>
+	{% assign albums = site.albums | where: "album", page.album %}
+	{% for album in albums %}
+	<a class="link" href="{{ site.baseurl }}{{ album.id }}"><img src="/images/ic/back.svg"><span>Back to Album</span></a><br>
+	{% endfor %}
+	<img src="../{{ page.image }}" style="max-height: initial; width: 100%;"><br><br>
+	{% for album in albums %}
+	<a class="link" href="{{ album.link }}"><img src="/images/ic/launch.svg"><span>View on Imgur</span></a>
+	{% endfor %}
 	<a class="link" href="https://choosealicense.com/licenses/cc-by-sa-4.0/"><img src="/images/ic/copyright.svg"><span>CC-BY-SA License 4.0</span></a>
 	<a class="link" href="../{{ page.image }}"><img src="/images/ic/download.svg"><span>Download</span></a>
 </main>
