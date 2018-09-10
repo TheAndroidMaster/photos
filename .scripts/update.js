@@ -48,15 +48,18 @@ try {
 		for (let i2 = 0; i2 < album.images.length; i2++) {
 			let image = album.images[i2];
 			images += "  - " + image.id + "\n";
-
-			let file = request('GET', image.link, {}).getBody();
-			fs.writeFileSync(path.resolve("../../images/" + image.id + ".jpg"), file);
+			
+			let fileName = image.id + "." + image.type.split("/")[1];
+			if (!fs.existsSync(path.resolve("../../images/" + fileName))) {
+				let file = request('GET', image.link, {}).getBody();
+				fs.writeFileSync(path.resolve("../../images/" + fileName), file);
+			}
 
 			fs.writeFileSync(path.resolve("../../_images/" + image.id + ".md"), "---\n"
 				+ "layout: image\n"
 				+ "title: " + album.title + "\n"
 				+ "imgur: " + image.id + "\n"
-				+ "image: images/" + image.id + ".jpg\n"
+				+ "image: images/" + fileName + "\n"
 				+ (image.description ? "description: " + image.description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
 				+ "album: " + album.id + "\n"
 				+ "---\n\n");
