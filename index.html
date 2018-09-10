@@ -17,7 +17,7 @@ title: Photos by James Fenn
 		<a class="item box image" href="{{ site.baseurl }}{{ album.id }}">
 			<div><img src="{{ image.image }}"></div>
 			<span>{{ album.title }}</span>
-			{{ album.date | date: "%B %e, %Y" }}
+			{{ album.images.size }}&nbsp;images
 		</a>
 		{% endfor %}
 	</div>
