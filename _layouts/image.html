@@ -5,9 +5,10 @@ layout: default
 <main>
 	{% assign albums = site.albums | where: "album", page.album %}
 	{% for album in albums %}
-	<a class="link" href="{{ site.baseurl }}{{ album.id }}"><img src="/images/ic/back.svg"><span>Back to Album</span></a><br>
+	<a class="link" href="{{ site.baseurl }}{{ album.id }}"><img src="/images/ic/back.svg"><span>Back to Album: "{{ page.title }}"</span></a><br>
 	{% endfor %}
-	<img src="../{{ page.image }}" style="max-height: initial; width: 100%;"><br><br>
+	<img src="../{{ page.image }}" style="max-height: initial; width: 100%;"><br>
+	<p>{{ page.description }}</p><br>
 	{% for album in albums %}
 	<a class="link" href="{{ album.link }}"><img src="/images/ic/launch.svg"><span>View on Imgur</span></a>
 	{% endfor %}
