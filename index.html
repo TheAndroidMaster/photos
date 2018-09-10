@@ -11,7 +11,10 @@ title: Photos by James Fenn
 	</p>
 	<div class="grid">
 		{% for album in site.albums %}
-		<a class="item box" href="{{ site.baseurl }}{{ album.id }}">
+		{% assign id = album.ids | first %}
+		{% assign image = site.images | where: "imgur", id | first %}
+		<a class="item box image" href="{{ site.baseurl }}{{ album.id }}">
+			<div><img src="{{ image.image }}"></div>
 			<span>{{ album.title }}</span>
 			{{ album.date | date: "%B %e, %Y" }}
 		</a>
