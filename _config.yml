@@ -5,7 +5,7 @@ baseurl: "/"
 
 collections:
     images:
-        output: false
+        output: true
     albums:
         output: true
 

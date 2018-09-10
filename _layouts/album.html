@@ -13,7 +13,7 @@ layout: default
 	<br>
 	{% assign images = site.images | where: "album", page.album %}
 	{% for image in images %}
-	<a class="item image" href="../{{ image.image }}">
+	<a class="item image" href="{{ site.baseurl }}{{ image.url }}">
 		<div><img src="../{{ image.image }}"></div>
 		<span>{{ image.description }}</span>
 	</a>
