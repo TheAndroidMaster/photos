@@ -54,7 +54,7 @@ try {
 
 			fs.writeFileSync(path.resolve("../../_images/" + image.id + ".md"), "---\n"
 				+ "layout: image\n"
-				+ "id: " + image.id + "\n"
+				+ "imgur: " + image.id + "\n"
 				+ "image: images/" + image.id + ".jpg\n"
 				+ (image.description ? "description: " + image.description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
 				+ "album: " + album.id + "\n"
