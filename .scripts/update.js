@@ -4,37 +4,37 @@ layout: null
 
 const _uid = "160685305@N03";
 
-const path = require("path");
-const fs = require('fs');
-const request = require('sync-request');
-const crypto = require('crypto');
-const http = require("http");
-const opn = require("opn");
+const _path = require("path");
+const _fs = require('fs');
+const _request = require('sync-request');
+const _crypto = require('crypto');
+const _http = require("http");
+const _opn = require("opn");
 
 let key = null;
 try {
-	key = fs.readFileSync(path.join(process.env.HOME, "keys/flickr/key"), 'utf8');
+	key = _fs.readFileSync(_path.join(process.env.HOME, "keys/flickr/key"), 'utf8');
 } catch (error) {
 	console.error("No Flickr Key:", error);
 }
 
 let secret = null;
 try {
-	secret = fs.readFileSync(path.join(process.env.HOME, "keys/flickr/secret"), 'utf8');
+	secret = _fs.readFileSync(_path.join(process.env.HOME, "keys/flickr/secret"), 'utf8');
 } catch (error) {
 	console.error("No Flickr Secret:", error);
 }
 
 let token = null;
 try {
-	token = fs.readFileSync(path.join(process.env.HOME, "keys/flickr/token"), 'utf8');
+	token = _fs.readFileSync(_path.join(process.env.HOME, "keys/flickr/token"), 'utf8');
 } catch (error) {
 	console.log("No Flickr Token, fetching...");
 }
 
 let tokenSecret = null;
 try {
-	tokenSecret = fs.readFileSync(path.join(process.env.HOME, "keys/flickr/tokenSecret"), 'utf8');
+	tokenSecret = _fs.readFileSync(_path.join(process.env.HOME, "keys/flickr/tokenSecret"), 'utf8');
 } catch (error) {
 	console.log("No Flickr Token Secret, fetching...");
 	tokenSecret = "";
@@ -58,7 +58,7 @@ if (!token) {
 		return;
 	}
 
-	const server = http.createServer((req, res) => {
+	const server = _http.createServer((req, res) => {
 		if (req.url.includes("oauth_token=")) {
 			res.writeHead(200, {"Content-Type": "text/plain"});
 			res.write("Token fetched successfully.\n");
@@ -76,8 +76,8 @@ if (!token) {
 				let authToken = response.split("&")[1].substring("oauth_token=".length);
 				let authTokenSecret = response.split("&")[2].substring("oauth_token_secret=".length);
 
-				fs.writeFileSync(path.join(process.env.HOME, "keys/flickr/token"), authToken);
-				fs.writeFileSync(path.join(process.env.HOME, "keys/flickr/tokenSecret"), authTokenSecret);
+				_fs.writeFileSync(_path.join(process.env.HOME, "keys/flickr/token"), authToken);
+				_fs.writeFileSync(_path.join(process.env.HOME, "keys/flickr/tokenSecret"), authTokenSecret);
 				console.log("Wrote secrets to file.");
 				server.close();
 			} else console.log(response);
@@ -91,7 +91,7 @@ if (!token) {
 	let url = "https://www.flickr.com/services/oauth/authorize?oauth_token=" + oauthToken + "&perms=read";
 	console.log("Opening " + url + "...");
 	console.log("\n");
-	opn(url);
+	_opn(url);
 	
 	return;
 }
@@ -129,17 +129,17 @@ try {
 			}
 			
 			let fileName = photos[i2].id + ".jpg";
-			if (thumbnail && !fs.existsSync(path.resolve("../../images/thumbs/" + fileName))) {
-				let file = request('GET', thumbnail.source, {}).getBody();
-				fs.writeFileSync(path.resolve("../../images/thumbs/" + fileName), file);
+			if (thumbnail && !_fs.existsSync(_path.resolve("../../images/thumbs/" + fileName))) {
+				let file = _request('GET', thumbnail.source, {}).getBody();
+				_fs.writeFileSync(_path.resolve("../../images/thumbs/" + fileName), file);
 			}
 
-			if (original && !fs.existsSync(path.resolve("../../images/" + fileName ))) {
-				let file = request('GET', original.source, {}).getBody();
-				fs.writeFileSync(path.resolve("../../images/" + fileName), file);
+			if (original && !_fs.existsSync(_path.resolve("../../images/" + fileName ))) {
+				let file = _request('GET', original.source, {}).getBody();
+				_fs.writeFileSync(_path.resolve("../../images/" + fileName), file);
 			}
 
-			fs.writeFileSync(path.resolve("../../_images/" + photos[i2].id + ".md"), "---\n"
+			_fs.writeFileSync(_path.resolve("../../_images/" + photos[i2].id + ".md"), "---\n"
 				+ "layout: image\n"
 				+ "title: " + photos[i2].title + "\n"
 				+ "uid: " + photos[i2].id + "\n"
@@ -153,7 +153,7 @@ try {
 			console.log("Fetched image " + photos[i2].id + " (" + photos[i2].title + ") in album " + albums[i].title);
 		}
 		
-		fs.writeFileSync(path.resolve("../../_albums/" + albums[i].id + ".md"), "---\n"
+		_fs.writeFileSync(_path.resolve("../../_albums/" + albums[i].id + ".md"), "---\n"
 			+ "layout: album\n"
 			+ "title: " + albums[i].title + "\n"
 			+ (albums[i].description ? "description: " + albums[i].description.split(":").join("&#58;") + "\n" : "")
@@ -169,7 +169,7 @@ try {
 }
 
 function apiRequest(args) {
-	let response = request('GET', "https://api.flickr.com/services/rest/?" + args + "&api_key=" + key + "&format=json", {}).getBody('utf8');
+	let response = _request('GET', "https://api.flickr.com/services/rest/?" + args + "&api_key=" + key + "&format=json", {}).getBody('utf8');
 	return JSON.parse(response.substring(14, response.length - 1));
 }
 
@@ -182,7 +182,7 @@ function apiRequestSigned(url, args) {
 	args.sort();
 
 	let string = "GET&" + encodeURIComponent(url) + "&" + encodeURIComponent(args.join("&"));
-	let signature = crypto.createHmac('sha1', secret + "&" + tokenSecret)
+	let signature = _crypto.createHmac('sha1', secret + "&" + tokenSecret)
 			.update(string)
 			.digest('base64');
 
@@ -190,7 +190,7 @@ function apiRequestSigned(url, args) {
 
 	let response = "";
 	try {
-		response = request('GET', url + "?" + args.join("&")).getBody('utf8');
+		response = _request('GET', url + "?" + args.join("&")).getBody('utf8');
 	} catch (e) {		
 		let eBody = e.body.toString("utf8");
 		if (eBody.includes("oauth_problem=signature_invalid")) {
