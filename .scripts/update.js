@@ -128,7 +128,7 @@ try {
 					original = sizes[i3];
 			}
 			
-			let fileName = photos[i2].id + ".jpeg";
+			let fileName = photos[i2].id + ".jpg";
 			if (thumbnail && !fs.existsSync(path.resolve("../../images/thumbs/" + fileName))) {
 				let file = request('GET', thumbnail.source, {}).getBody();
 				fs.writeFileSync(path.resolve("../../images/thumbs/" + fileName), file);
