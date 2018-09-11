@@ -1,3 +1,7 @@
+---
+layout: null
+---
+
 const path = require("path");
 const fs = require('fs');
 const request = require('sync-request');
