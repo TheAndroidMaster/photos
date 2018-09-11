@@ -11,18 +11,20 @@ layout: default
 	{% endif %}
 	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
 	<br>
-	{% for id in page.images %}
-	{% assign images = site.images | where: "uid", id %}
-	{% for image in images %}
-	<a class="item image" href="{{ site.baseurl }}{{ image.id }}">
-		<div><img src="../{{ image.image }}"></div>
-		<span>
-			<b>{{ image.title }}</b>
-			{% if image.description %}
-			<br>{{ image.description }}
-			{% endif %}
-		</span>
-	</a>
-	{% endfor %}
-	{% endfor %}
+	<div class="grid">
+		{% for id in page.images %}
+		{% assign images = site.images | where: "uid", id %}
+		{% for image in images %}
+		<a class="item box image" href="{{ site.baseurl }}{{ image.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
+			<div><img src="../{{ image.image }}"></div>
+			<span>
+				<b>{{ image.title }}</b>
+				{% if image.description %}
+				<br>{{ image.description }}
+				{% endif %}
+			</span>
+		</a>
+		{% endfor %}
+		{% endfor %}
+	</div>
 </main>
