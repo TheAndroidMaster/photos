@@ -10,6 +10,8 @@ const _request = require('sync-request');
 const _crypto = require('crypto');
 const _http = require("http");
 const _opn = require("opn");
+const _jpeg = require("jpeg-js");
+const _palette = require("get-rgba-palette");
 
 let key = null;
 try {
@@ -139,6 +141,26 @@ try {
 				_fs.writeFileSync(_path.resolve("../../images/" + fileName), file);
 			}
 
+			let jpeg = _jpeg.decode(_fs.readFileSync(_path.resolve("../../images/thumbs/" + fileName)), true).data;
+			let jpegArr = [];
+			for (let aaaa in jpeg) {
+				jpegArr.push(jpeg[aaaa]);
+			}
+			
+			let colors = _palette(jpegArr, 5);
+
+			let backgroundRgb = colors[0][0] | (colors[0][1] << 8) | (colors[0][2] << 16);
+			let backgroundHex = "#" + (0x1000000 + backgroundRgb).toString(16).slice(1);
+			let foregroundHex = "#000000";
+			if (((0.299 * colors[0][0]) + (0.587 * colors[0][1]) + (0.114 * colors[0][2])) < 0.5)
+				foregroundHex = "#FFFFFF";
+			
+			let colorsString = "";
+			for (let i3 = 0; i3 < colors.length; i3++) {
+				let rgb = colors[i3][0] | (colors[i3][1] << 8) | (colors[i3][2] << 16);
+				colorsString += "  - #" + (0x1000000 + rgb).toString(16).slice(1) + "\n";
+			}
+
 			_fs.writeFileSync(_path.resolve("../../_images/" + photos[i2].id + ".md"), "---\n"
 				+ "layout: image\n"
 				+ "title: " + photos[i2].title + "\n"
@@ -148,6 +170,9 @@ try {
 				+ "image: images/" + fileName + "\n"
 				+ (photos[i2].description ? "description: " + photos[i2].description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
 				+ "album: " + albums[i].id + "\n"
+				+ "colors: \n" + colorsString
+				+ "background: " + backgroundHex + "\n"
+				+ "foreground: " + foregroundHex + "\n"
 				+ "---\n\n");
 
 			console.log("Fetched image " + photos[i2].id + " (" + photos[i2].title + ") in album " + albums[i].title);
