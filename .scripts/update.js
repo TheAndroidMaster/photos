@@ -7,77 +7,82 @@ const fs = require('fs');
 const request = require('sync-request');
 const cheerio = require('cheerio');
 
-let client = null;
+let key = null;
 try {
-	client = fs.readFileSync(path.join(process.env.HOME, "keys/imgur/id"), 'utf8');
+	key = fs.readFileSync(path.join(process.env.HOME, "keys/flickr/key"), 'utf8');
 } catch (error) {
 	console.error("No Imgur ID:", error);
 }
 
 let secret = null;
 try {
-	secret = fs.readFileSync(path.join(process.env.HOME, "keys/imgur/secret"), 'utf8');
+	secret = fs.readFileSync(path.join(process.env.HOME, "keys/flickr/secret"), 'utf8');
 } catch (error) {
 	console.error("No Imgur Secret:", error);
 }
 
-let token = null;
 try {
-	token = fs.readFileSync(path.join(process.env.HOME, "keys/imgur/token"), 'utf8');
-} catch (error) {
-	console.error("No Imgur Token:", error);
-}
+	let albums = apiRequest("method=flickr.photosets.getList&user_id=160685305@N03").photosets.photoset;
 
-try {
-	let albums = JSON.parse(request('GET', "https://api.imgur.com/3/account/Fennifith/albums/ids/", {
-		headers: { 
-			"User-Agent": "Fennifith",
-			"Authorization": client ? "Client-ID " + client : null
-		}
-	}).getBody('utf8')).data;
-
-	for (let i = 0; i < albums.length; i++) {					
-		let album = JSON.parse(request('GET', "https://api.imgur.com/3/account/Fennifith/album/" + albums[i] + "/", {
-			headers: {
-				"User-Agent": "Fennifith",
-				"Authorization": token ? "Bearer " + token : null
-			}
-		}).getBody('utf8')).data;
+	for (let i = 0; i < albums.length; i++) {
+		albums[i].title = albums[i].title._content;
+		albums[i].description = albums[i].description._content;
+	
+		let photos = apiRequest("method=flickr.photosets.getPhotos&user_id=160685305@N03&photoset_id=" + albums[i].id).photoset.photo;
 
 		let images = "";
-		for (let i2 = 0; i2 < album.images.length; i2++) {
-			let image = album.images[i2];
-			images += "  - " + image.id + "\n";
+		for (let i2 = 0; i2 < photos.length; i2++) {
+			images += "  - " + photos[i2].id + "\n";
+
+			let sizes = apiRequest("method=flickr.photos.getSizes&photo_id=" + photos[i2].id).sizes.size;
+			if (sizes.length < 1) {
+				console.error("ERROR retrieving picture " + photos[i2].title + " (" + photos[i2].id + ") from album " + albums[i].title);
+				continue;
+			}
 			
-			let fileName = image.id + "." + image.type.split("/")[1];
-			if (!fs.existsSync(path.resolve("../../images/" + fileName))) {
-				let file = request('GET', image.link, {}).getBody();
+			let thumbnail = sizes[Math.floor(sizes.length / 2)];
+			let original = sizes[sizes.length - 1];
+			
+			let fileName = photos[i2].id + ".jpeg";
+			if (thumbnail && !fs.existsSync(path.resolve("../../images/thumbs/" + fileName))) {
+				let file = request('GET', thumbnail.source, {}).getBody();
+				fs.writeFileSync(path.resolve("../../images/thumbs/" + fileName), file);
+			}
+
+			if (original && !fs.existsSync(path.resolve("../../images/" + fileName ))) {
+				let file = request('GET', original.source, {}).getBody();
 				fs.writeFileSync(path.resolve("../../images/" + fileName), file);
 			}
 
-			fs.writeFileSync(path.resolve("../../_images/" + image.id + ".md"), "---\n"
+			fs.writeFileSync(path.resolve("../../_images/" + photos[i2].id + ".md"), "---\n"
 				+ "layout: image\n"
-				+ "title: " + album.title + "\n"
-				+ "imgur: " + image.id + "\n"
+				+ "title: " + photos[i2].title + "\n"
+				+ "imgur: " + photos[i2].id + "\n"
+				+ "thumb: images/thumbs/" + fileName + "\n"
 				+ "image: images/" + fileName + "\n"
-				+ (image.description ? "description: " + image.description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
-				+ "album: " + album.id + "\n"
+				+ (photos[i2].description ? "description: " + photos[i2].description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
+				+ "album: " + albums[i].id + "\n"
 				+ "---\n\n");
 
-			console.log("Fetched image " + image.id + " in album " + album.title);
+			console.log("Fetched image " + photos[i2].id + " (" + photos[i2].title + ") in album " + albums[i].title);
 		}
 		
-		fs.writeFileSync(path.resolve("../../_albums/" + album.id + ".md"), "---\n"
+		fs.writeFileSync(path.resolve("../../_albums/" + albums[i].id + ".md"), "---\n"
 			+ "layout: album\n"
-			+ "title: " + album.title + "\n"
-			+ (album.description ? "description: " + album.description.split(":").join("&#58;") + "\n" : "")
-			+ "album: " + album.id + "\n"
-			+ "link: " + album.link + "\n"
+			+ "title: " + albums[i].title + "\n"
+			+ (albums[i].description ? "description: " + albums[i].description.split(":").join("&#58;") + "\n" : "")
+			+ "album: " + albums[i].id + "\n"
+			+ "link: " + albums[i].link + "\n"
 			+ "images:\n" + images
 			+ "---\n\n");
 
-		console.log("Fetched album " + album.title);
+		console.log("Fetched album " + albums[i].title);
 	}
 } catch (error) {
 	console.error(error);
+}
+
+function apiRequest(args) {
+	let response = request('GET', "https://api.flickr.com/services/rest/?" + args + "&api_key=" + key + "&format=json", {}).getBody('utf8');
+	return JSON.parse(response.substring(14, response.length - 1));
 }
