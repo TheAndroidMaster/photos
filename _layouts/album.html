@@ -9,14 +9,19 @@ layout: default
 	{% if page.description %}
 	<p>{{ page.description }}</p>
 	{% endif %}
-	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Imgur</span></a>
+	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
 	<br>
 	{% for id in page.images %}
-	{% assign images = site.images | where: "imgur", id %}
+	{% assign images = site.images | where: "uid", id %}
 	{% for image in images %}
 	<a class="item image" href="{{ site.baseurl }}{{ image.id }}">
 		<div><img src="../{{ image.image }}"></div>
-		<span>{{ image.description }}</span>
+		<span>
+			<b>{{ image.title }}</b>
+			{% if image.description %}
+			<br>{{ image.description }}
+			{% endif %}
+		</span>
 	</a>
 	{% endfor %}
 	{% endfor %}
