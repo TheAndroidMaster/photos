@@ -2,6 +2,8 @@
 layout: null
 ---
 
+const _uid = "160685305@N03";
+
 const path = require("path");
 const fs = require('fs');
 const request = require('sync-request');
@@ -95,13 +97,13 @@ if (!token) {
 }
 
 try {
-	let albums = apiRequest("method=flickr.photosets.getList&user_id=160685305@N03").photosets.photoset;
+	let albums = apiRequest("method=flickr.photosets.getList&user_id=" + _uid).photosets.photoset;
 
 	for (let i = 0; i < albums.length; i++) {
 		albums[i].title = albums[i].title._content;
 		albums[i].description = albums[i].description._content;
 	
-		let photos = apiRequest("method=flickr.photosets.getPhotos&user_id=160685305@N03&photoset_id=" + albums[i].id).photoset.photo;
+		let photos = apiRequest("method=flickr.photosets.getPhotos&user_id=" + _uid + "&photoset_id=" + albums[i].id).photoset.photo;
 
 		let images = "";
 		for (let i2 = 0; i2 < photos.length; i2++) {
@@ -141,6 +143,7 @@ try {
 				+ "layout: image\n"
 				+ "title: " + photos[i2].title + "\n"
 				+ "uid: " + photos[i2].id + "\n"
+				+ "link: https://www.flickr.com/photos/" + _uid + "/" + photos[i2].id + "\n"
 				+ "thumb: images/thumbs/" + fileName + "\n"
 				+ "image: images/" + fileName + "\n"
 				+ (photos[i2].description ? "description: " + photos[i2].description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
@@ -155,7 +158,7 @@ try {
 			+ "title: " + albums[i].title + "\n"
 			+ (albums[i].description ? "description: " + albums[i].description.split(":").join("&#58;") + "\n" : "")
 			+ "uid: " + albums[i].id + "\n"
-			+ "link: " + albums[i].link + "\n"
+			+ "link: https://www.flickr.com/photos/" + _uid + "/albums/" + albums[i].id + "\n"
 			+ "images:\n" + images
 			+ "---\n\n");
 
