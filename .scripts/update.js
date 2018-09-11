@@ -152,13 +152,13 @@ try {
 			let backgroundRgb = colors[0][0] | (colors[0][1] << 8) | (colors[0][2] << 16);
 			let backgroundHex = "#" + (0x1000000 + backgroundRgb).toString(16).slice(1);
 			let foregroundHex = "#000000";
-			if (((0.299 * colors[0][0]) + (0.587 * colors[0][1]) + (0.114 * colors[0][2])) < 0.5)
+			if (((0.299 * colors[0][0]) + (0.587 * colors[0][1]) + (0.114 * colors[0][2])) < 127)
 				foregroundHex = "#FFFFFF";
 			
 			let colorsString = "";
 			for (let i3 = 0; i3 < colors.length; i3++) {
 				let rgb = colors[i3][0] | (colors[i3][1] << 8) | (colors[i3][2] << 16);
-				colorsString += "  - #" + (0x1000000 + rgb).toString(16).slice(1) + "\n";
+				colorsString += "  - \"#" + (0x1000000 + rgb).toString(16).slice(1) + "\"\n";
 			}
 
 			_fs.writeFileSync(_path.resolve("../../_images/" + photos[i2].id + ".md"), "---\n"
@@ -171,8 +171,8 @@ try {
 				+ (photos[i2].description ? "description: " + photos[i2].description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
 				+ "album: " + albums[i].id + "\n"
 				+ "colors: \n" + colorsString
-				+ "background: " + backgroundHex + "\n"
-				+ "foreground: " + foregroundHex + "\n"
+				+ "background: \"" + backgroundHex + "\"\n"
+				+ "foreground: \"" + foregroundHex + "\"\n"
 				+ "---\n\n");
 
 			console.log("Fetched image " + photos[i2].id + " (" + photos[i2].title + ") in album " + albums[i].title);
