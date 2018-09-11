@@ -107,14 +107,24 @@ try {
 		for (let i2 = 0; i2 < photos.length; i2++) {
 			images += "  - " + photos[i2].id + "\n";
 
-			let sizes = apiRequest("method=flickr.photos.getSizes&photo_id=" + photos[i2].id).sizes.size;
+			let sizes = apiRequestSigned("https://api.flickr.com/services/rest/", [
+				"method=flickr.photos.getSizes",
+				"photo_id=" + photos[i2].id,
+				"format=json"
+			]).sizes.size;
+			
 			if (sizes.length < 1) {
 				console.error("ERROR retrieving picture " + photos[i2].title + " (" + photos[i2].id + ") from album " + albums[i].title);
 				continue;
 			}
 			
 			let thumbnail = sizes[Math.floor(sizes.length / 2)];
-			let original = sizes[sizes.length - 1];
+			
+			let original = sizes[0];
+			for (let i3 = 0; i3 < sizes.length; i3++) {
+				if (sizes[i3].width > original.width)
+					original = sizes[i3];
+			}
 			
 			let fileName = photos[i2].id + ".jpeg";
 			if (thumbnail && !fs.existsSync(path.resolve("../../images/thumbs/" + fileName))) {
@@ -174,8 +184,10 @@ function apiRequestSigned(url, args) {
 			.digest('base64');
 
 	args.push("oauth_signature=" + encodeURIComponent(signature));
+
+	let response = "";
 	try {
-		return request('GET', url + "?" + args.join("&")).getBody('utf8');
+		response = request('GET', url + "?" + args.join("&")).getBody('utf8');
 	} catch (e) {		
 		let eBody = e.body.toString("utf8");
 		if (eBody.includes("oauth_problem=signature_invalid")) {
@@ -191,5 +203,11 @@ function apiRequestSigned(url, args) {
 		} else console.log(e);
 		
 		return "";
+	}
+
+	try {
+		return JSON.parse(response.substring(14, response.length - 1));
+	} catch (e) {
+		return response;
 	}
 }
