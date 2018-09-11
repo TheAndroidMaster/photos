@@ -122,7 +122,7 @@ try {
 			
 			let original = sizes[0];
 			for (let i3 = 0; i3 < sizes.length; i3++) {
-				if (sizes[i3].width > original.width)
+				if (parseInt(sizes[i3].width) > parseInt(original.width))
 					original = sizes[i3];
 			}
 			
