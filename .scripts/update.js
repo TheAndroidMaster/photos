@@ -57,7 +57,7 @@ try {
 			fs.writeFileSync(path.resolve("../../_images/" + photos[i2].id + ".md"), "---\n"
 				+ "layout: image\n"
 				+ "title: " + photos[i2].title + "\n"
-				+ "imgur: " + photos[i2].id + "\n"
+				+ "uid: " + photos[i2].id + "\n"
 				+ "thumb: images/thumbs/" + fileName + "\n"
 				+ "image: images/" + fileName + "\n"
 				+ (photos[i2].description ? "description: " + photos[i2].description.split(":").join("&#58;").split("-").join("&#8208;") + "\n" : "")
@@ -71,7 +71,7 @@ try {
 			+ "layout: album\n"
 			+ "title: " + albums[i].title + "\n"
 			+ (albums[i].description ? "description: " + albums[i].description.split(":").join("&#58;") + "\n" : "")
-			+ "album: " + albums[i].id + "\n"
+			+ "uid: " + albums[i].id + "\n"
 			+ "link: " + albums[i].link + "\n"
 			+ "images:\n" + images
 			+ "---\n\n");
