@@ -14,4 +14,13 @@ layout: default
 	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
 	<a class="link" href="https://choosealicense.com/licenses/cc-by-sa-4.0/"><img src="/images/ic/copyright.svg"><span>CC-BY-SA License 4.0</span></a>
 	<a class="link" href="../{{ page.image }}"><img src="/images/ic/download.svg"><span>Download</span></a>
+	<h3>Colors</h3>
+	<div class="grid" style="margin: 0;">
+		{% for color in page.colors %}
+		<div class="item link">
+			<img class="round" style="background-color: {{ color }};">
+			<span>{{ color }}</span>
+		</div>
+		{% endfor %}
+	</div>
 </main>
