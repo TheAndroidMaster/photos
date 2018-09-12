@@ -10,7 +10,9 @@ layout: default
 	<img src="../{{ page.image }}" style="max-height: initial; width: 100%;">
 	<small>&copy; 2018 <a href="/">James Fenn</a></small><br>
 	<h2>{{ page.title }}</h2>
+	{% if page.description and page.description.size > 0 %}
 	<p>{{ page.description }}</p><br>
+	{% endif %}
 	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
 	<a class="link" href="https://choosealicense.com/licenses/cc-by-sa-4.0/"><img src="/images/ic/copyright.svg"><span>CC-BY-SA License 4.0</span></a>
 	<a class="link" href="../{{ page.image }}"><img src="/images/ic/download.svg"><span>Download</span></a>
