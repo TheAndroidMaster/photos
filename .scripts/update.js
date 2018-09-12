@@ -111,6 +111,8 @@ try {
 		for (let i2 = 0; i2 < photos.length; i2++) {
 			images += "  - " + photos[i2].id + "\n";
 
+			let exif = apiRequest("method=flickr.photos.getExif&photo_id=" + photos[i2].id).photo;
+
 			let sizes = apiRequestSigned("https://api.flickr.com/services/rest/", [
 				"method=flickr.photos.getSizes",
 				"photo_id=" + photos[i2].id,
@@ -173,6 +175,9 @@ try {
 				+ "colors: \n" + colorsString
 				+ "background: \"" + backgroundHex + "\"\n"
 				+ "foreground: \"" + foregroundHex + "\"\n"
+				+ (exif.camera ? "camera: " + exif.camera + "\n" : "")
+				+ "height: " + original.height + "\n"
+				+ "width: " + original.width + "\n"
 				+ "---\n\n");
 
 			console.log("Fetched image " + photos[i2].id + " (" + photos[i2].title + ") in album " + albums[i].title);
