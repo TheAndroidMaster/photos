@@ -16,6 +16,19 @@ layout: default
 	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
 	<a class="link" href="https://choosealicense.com/licenses/cc-by-sa-4.0/"><img src="/images/ic/copyright.svg"><span>CC-BY-SA License 4.0</span></a>
 	<a class="link" href="../{{ page.image }}"><img src="/images/ic/download.svg"><span>Download</span></a>
+	<h3>Camera</h3>
+	<div class="grid" style="margin: 0;">
+		{% if page.camera %}
+		<div class="item link">
+			<img src="/images/ic/camera.svg">
+			<span>{{ page.camera }}</span>
+		</div>
+		{% endif %}
+		<div class="item link">
+			<img src="/images/ic/photo_size.svg">
+			<span>{{ page.width }} x {{ page.height }} px</span>
+		</div>
+	</div>
 	<h3>Colors</h3>
 	<div class="grid" style="margin: 0;">
 		{% for color in page.colors %}
