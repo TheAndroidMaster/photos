@@ -12,13 +12,15 @@ title: Photos by James Fenn
 	</p>
 	<p>The repository containing the images and this site's source code is located on GitHub <a href="/redirects/?t=github&d=photos">here</a>.</p>
 	<br>
-	<div class="grid">
+	<div class="layout--grid">
 		{% for album in site.albums %}
 		{% assign id = album.images | first %}
 		{% assign image = site.images | where: "uid", id | first %}
-		<a class="item box image" href="{{ site.baseurl }}{{ album.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
-			<div><img src="{{ image.thumb }}"></div>
-			<span>{{ album.title }}</span>
+		<a class="item item--box item--img-box" href="{{ site.baseurl }}{{ album.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
+			<div class="item--img__container item--img-box__container">
+				<img class="item--img-box__img" src="{{ image.thumb }}">
+			</div>
+			<span class="item--img-box__title">{{ album.title }}</span>
 			{{ album.images.size }}&nbsp;images
 		</a>
 		{% endfor %}

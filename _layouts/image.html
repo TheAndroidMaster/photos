@@ -5,36 +5,50 @@ layout: default
 <main>
 	{% assign albums = site.albums | where: "uid", page.album %}
 	{% for album in albums %}
-	<a class="link" href="{{ site.baseurl }}{{ album.id }}"><img src="/images/ic/back.svg"><span>Back to Album</span></a><br>
+	<a class="link" href="{{ site.baseurl }}{{ album.id }}">
+		<img class="link__img" src="/images/ic/back.svg">
+		<span class="link__title">Back to Album</span>
+	</a><br>
 	{% endfor %}
-	<div class="wide"><img src="../{{ page.image }}" style="max-height: initial; width: 100%;"></div>
+	<div class="img__container img__container--wide">
+		<img src="../{{ page.image }}" style="max-height: initial; width: 100%;">
+	</div>
 	<small>&copy; 2018 <a href="/">James Fenn</a></small><br>
 	<h2>{{ page.title }}</h2>
 	{% if page.description and page.description.size > 0 %}
 	<p>{{ page.description }}</p><br>
 	{% endif %}
-	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
-	<a class="link" href="https://choosealicense.com/licenses/cc-by-sa-4.0/"><img src="/images/ic/copyright.svg"><span>CC-BY-SA License 4.0</span></a>
-	<a class="link" href="../{{ page.image }}"><img src="/images/ic/download.svg"><span>Download</span></a>
+	<a class="link" href="{{ page.link }}">
+		<img class="link__img" src="/images/ic/launch.svg">
+		<span class="link__title">View on Flickr</span>
+	</a>
+	<a class="link" href="https://choosealicense.com/licenses/cc-by-sa-4.0/">
+		<img class="link__img" src="/images/ic/copyright.svg">
+		<span class="link__title">CC-BY-SA License 4.0</span>
+	</a>
+	<a class="link" href="../{{ page.image }}">
+		<img class="link__img" src="/images/ic/download.svg">
+		<span class="link__title">Download</span>
+	</a>
 	<h3>Camera</h3>
-	<div class="grid" style="margin: 0;">
+	<div class="layout--grid" style="margin: 0;">
 		{% if page.camera %}
 		<div class="item link">
-			<img src="/images/ic/camera.svg">
-			<span>{{ page.camera }}</span>
+			<img class="link__img" src="/images/ic/camera.svg">
+			<span class="link__title">{{ page.camera }}</span>
 		</div>
 		{% endif %}
 		<div class="item link">
-			<img src="/images/ic/photo_size.svg">
-			<span>{{ page.width }} x {{ page.height }} px</span>
+			<img class="link__img" src="/images/ic/photo_size.svg">
+			<span class="link__title">{{ page.width }} x {{ page.height }} px</span>
 		</div>
 	</div>
 	<h3>Colors</h3>
-	<div class="grid" style="margin: 0;">
+	<div class="layout--grid" style="margin: 0;">
 		{% for color in page.colors %}
 		<div class="item link">
-			<object class="round" style="background-color: {{ color }};"></object>
-			<span>{{ color }}</span>
+			<object class="link__img--round" style="background-color: {{ color }};"></object>
+			<span class="link__title">{{ color }}</span>
 		</div>
 		{% endfor %}
 	</div>

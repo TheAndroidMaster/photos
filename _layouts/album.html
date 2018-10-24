@@ -3,21 +3,29 @@ layout: default
 ---
 
 <main>
-	<a class="link" href="{{ site.baseurl }}"><img src="/images/ic/back.svg"><span>Back to All Albums</span></a>
+	<a class="link" href="{{ site.baseurl }}">
+		<img class="link__img" src="/images/ic/back.svg">
+		<span class="link__title">Back to All Albums</span>
+	</a>
 	<br>
 	<h1>{{ page.title }}</h1>
 	{% if page.description %}
 	<p>{{ page.description }}</p>
 	{% endif %}
-	<a class="link" href="{{ page.link }}"><img src="/images/ic/launch.svg"><span>View on Flickr</span></a>
+	<a class="link" href="{{ page.link }}">
+		<img class="link__img" src="/images/ic/launch.svg">
+		<span class="link__title">View on Flickr</span>
+	</a>
 	<br>
-	<div class="grid">
+	<div class="layout--grid">
 		{% for id in page.images %}
 		{% assign images = site.images | where: "uid", id %}
 		{% for image in images %}
-		<a class="item box image" href="{{ site.baseurl }}{{ image.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
-			<div><img src="../{{ image.thumb }}"></div>
-			<span>{{ image.title }}</span>
+		<a class="item item--box item--img-box" href="{{ site.baseurl }}{{ image.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
+			<div class="item--img__container item--img-box__container">
+				<img class="item--img-box__img" src="../{{ image.thumb }}">
+			</div>
+			<span class="item--img-box__title">{{ image.title }}</span>
 		</a>
 		{% endfor %}
 		{% endfor %}
