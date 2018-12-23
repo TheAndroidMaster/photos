@@ -5,7 +5,7 @@ layout: default
 <main>
 	{% assign albums = site.albums | where: "uid", page.album %}
 	{% for album in albums %}
-	<a class="link" href="{{ site.baseurl }}{{ album.id }}">
+	<a class="link" href="{{ site.url }}{{ album.id }}">
 		<img class="link__img" src="/images/ic/back.svg">
 		<span class="link__title">Back to Album</span>
 	</a><br>

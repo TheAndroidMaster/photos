@@ -3,7 +3,7 @@ layout: default
 ---
 
 <main>
-	<a class="link" href="{{ site.baseurl }}">
+	<a class="link" href="{{ site.url }}">
 		<img class="link__img" src="/images/ic/back.svg">
 		<span class="link__title">Back to All Albums</span>
 	</a>
@@ -21,7 +21,7 @@ layout: default
 		{% for id in page.images %}
 		{% assign images = site.images | where: "uid", id %}
 		{% for image in images %}
-		<a class="item item--box item--img-box" href="{{ site.baseurl }}{{ image.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
+		<a class="item item--box item--img-box" href="{{ site.url }}{{ image.id }}" style="--item-fg: {{ image.foreground }}; --item-bg: {{ image.background }};">
 			<div class="item--img__container item--img-box__container">
 				<img class="item--img-box__img" src="../{{ image.thumb }}">
 			</div>

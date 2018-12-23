@@ -1,6 +1,6 @@
 name: James Fenn
 description: James Fenn's photo collection.
-url: https://jfenn.me/photos
+url: "/photos"
 baseurl: "/"
 
 collections:
